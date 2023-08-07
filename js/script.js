@@ -13,7 +13,7 @@ const container = document.getElementById("container"); // "Traemos" utilizando 
 getJSONData(DATA_URL).then(function(resultObj){
   if (resultObj.status === "ok")
   {
-      categoriesArray = resultObj.data;
+      categoriesArray = resultObj.data.students;
       showData(categoriesArray);
   }
 });
@@ -50,3 +50,14 @@ function showData(dataArray) {
 }
 
 // Escribe el código necesario para realizar el fetch al archivo con los datos y mostrar los estudiantes con la función showData
+fetch(DATA_URL)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Error al cargar el archivo JSON.");
+    }
+    return response.json();
+  })
+  .then(data => {showData(data.students);
+  })
+  .catch(error => {container.innerHTML = "Error al cargar los datos.";
+});
