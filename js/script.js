@@ -10,6 +10,37 @@ const container = document.getElementById("container"); // "Traemos" utilizando 
  * Los datos se mostrarán dentro del div de id "container" y por cada ítem se está creando un nuevo párrafo donde se
  * imprime el campo "name" y el campo "lastname" separados por un espacio
  */
+getJSONData(DATA_URL).then(function(resultObj){
+  if (resultObj.status === "ok")
+  {
+      categoriesArray = resultObj.data;
+      showData(categoriesArray);
+  }
+});
+
+function getJSONData(url){
+  let result = {};
+  return fetch(url)
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    }else{
+      throw Error(response.statusText);
+    }
+  })
+  .then(function(response) {
+        result.status = 'ok';
+        result.data = response;
+        
+        return result;
+  })
+  .catch(function(error) {
+      result.status = 'error';
+      result.data = error;
+     
+      return result;
+  });
+}
 function showData(dataArray) {
   // El for itera sobre los elementos del array
   for (const item of dataArray) {
